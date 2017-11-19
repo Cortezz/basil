@@ -83,6 +83,7 @@ celerybeat-schedule
 venv/
 basil-api/
 ENV/
+basil/
 
 # Spyder project settings
 .spyderproject
