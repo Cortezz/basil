@@ -32,7 +32,11 @@
             var $map = $("#map");
 
             $map.bind('mousedown', function(e) {
-                paint  = true;
+                if (!paint){
+                    ctx.beginPath();
+                    paint  = true;
+
+                }
             });
 
             $map.mousemove(function(e){
