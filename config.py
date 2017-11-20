@@ -13,6 +13,8 @@ class BaseConfig(object):
     DEBUG = False
     TESTING = False
 
+    GMAPS_API_KEY = os.environ.get('GMAPS_API_KEY')
+
     @classmethod
     def init_app(cls, app):
         pass

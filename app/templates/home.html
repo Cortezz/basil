@@ -1,8 +1,21 @@
 {% extends 'base.html' %}
 {% block body %}
+    <h1>BASIL!!!!</h1>
 
-    <div id="map"></div>
+
+    <canvas id="map"></canvas>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
 							integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
+    <script>
+
+    </script>
+    <style>
+    #map{
+        background-image: url({{ url_for('static', filename='img/europe.png') }});
+        width: 800px;
+        height:700px;
+        background-size: cover;
+    }
+    </style>
 {% endblock %}
