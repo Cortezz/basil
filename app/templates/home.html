@@ -26,9 +26,7 @@
             ctx.lineJoin = "round";
             ctx.lineWidth = 0.5;
 
-            var coordinatesX = new Array();
-            var coordinatesY = new Array();
-
+            var coordinates = new Array();
 
             var paint = false;
             var $map = $("#map");
@@ -41,19 +39,15 @@
                 if (paint) {
                     var x = e.pageX - this.offsetLeft;
                     var y = e.pageY - this.offsetTop;
-                    console.log(e.pageX, e.pageY, this.offsetLeft, this.offsetTop);
-                    coordinatesX.push(x);
-                    coordinatesY.push(y);
-                    ctx.lineTo(x,y,5,5);
+                    coordinates.push(x,y);
+                    ctx.lineTo(x,y);
                     ctx.stroke();
                 }
             });
 
             $map.bind('mouseup', function(e){
                 if (paint) {
-                    console.log(coordinatesX);
-                    console.log(coordinatesY);
-
+                    console.log(coordinates);
                 }
                 paint = false;
             });
@@ -62,34 +56,6 @@
                paint = false;
             });
         });
-
-        function addClick(x, y, dragging)
-        {
-          clickX.push(x);
-          clickY.push(y);
-          clickDrag.push(dragging);
-        }
-
-        //"#df4b26"
-        function draw (color, context){
-          context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-
-          context.strokeStyle = color;
-          context.lineJoin = "round";
-          context.lineWidth = 5;
-
-          for(var i=0; i < clickX.length; i++) {
-            context.beginPath();
-            if(clickDrag[i] && i){
-              context.moveTo(clickX[i-1], clickY[i-1]);
-             }else{
-               context.moveTo(clickX[i]-1, clickY[i]);
-             }
-             context.lineTo(clickX[i], clickY[i]);
-             context.closePath();
-             context.stroke();
-          }
-        }
     </script>
 
 {% endblock %}
