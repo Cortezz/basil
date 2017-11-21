@@ -27,14 +27,25 @@
             canvas.width = 800;
             canvas.height = 700;
 
-            ctx.strokeStyle = "#FF0000";
-            ctx.lineJoin = "round";
-            ctx.lineWidth = 0.5;
-
             var coordinates = new Array();
             var coordinatesHistory = new Array();
             var paint = false;
             var $map = $("#map");
+
+            ctx.strokeStyle = "#FF0000";
+            ctx.lineJoin = "round";
+            ctx.lineWidth = 0.5;
+
+
+             $.ajax({
+                method: 'GET',
+                headers: {'Content-Type': 'application/json'},
+                url: "http://{{ basil_api_endpoint }}/api/v1/trips"
+            }).success(function(data){
+                console.log(data);
+                drawTrips(data);
+            });
+
 
             $map.bind('mousedown', function(e) {
                 if (!paint){
@@ -83,8 +94,6 @@
             });
 
             $("#cancel-trip").on('click', function(){
-                // AJAX calls go here
-                console.log("AJAX goddamnit");
                 $(".popup").fadeOut(500);
                 coordinates = new Array();
                 redraw();
@@ -105,6 +114,18 @@
                     ctx.closePath();
                     ctx.beginPath();
                 }
+            }
+
+            function drawTrips(trips){
+                trips.forEach(function(trip){
+                    coordinatesHistory.push(trip.coordinates);
+                    ctx.beginPath();
+                    trip.coordinates.forEach(function(coordinate){
+                       ctx.lineTo(coordinate.x, coordinate.y);
+                       ctx.stroke();
+                    });
+                    ctx.closePath();
+                });
             }
 
         });
