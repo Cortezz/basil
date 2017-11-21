@@ -68,11 +68,12 @@
             });
 
             $("#save-trip").on('click', function(){
+                console.log(coordinates);
                 $.ajax({
                     type: "POST",
                     headers: {"Content-Type": "application/json"},
-                    url: "{{ basil_api_endpoint }}"+"/trips",
-                    data: coordinatesHistory[coordinatesHistory.length - 1]
+                    url: "http://"+"{{ basil_api_endpoint }}"+"/api/v1/trips",
+                    data: JSON.stringify({"coordinates": coordinates })
                 }).success(function() {
                     $(".popup").fadeOut(500);
                     ctx.closePath();
@@ -95,7 +96,6 @@
                 ctx.lineJoin = "round";
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                debugger;
 
                 for (var i=0; i<coordinatesHistory.length; i++){
                     for (var j=0; j<coordinatesHistory[i].length; j++) {

@@ -1,3 +1,7 @@
 Flask==0.12.2
 Flask-Script==2.0.6
 python-dotenv==0.7.1
+Flask-SQLAlchemy==2.3.2
+psycopg2==2.7.3.2
+SQLAlchemy-Utils==0.32.21
+Flask-Restful==0.3.6
