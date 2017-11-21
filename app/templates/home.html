@@ -3,18 +3,23 @@
     <h1>BASIL!!!!</h1>
 
 
-    <canvas id="map"></canvas>
+    <canvas id="map">
+    </canvas>
+    <div class="popup">
+        <div class="popup-content">
+            <div class="popup-message">
+                Would you like to save this trip?
+            </div>
+            <div class="popup-options">
+                <button id="save-trip">Fuck yes!</button>
+                <button id="delete-trip">NOPE</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
 							integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
-     <style>
-        #map{
-            background-image: url({{ url_for('static', filename='img/europe.png') }});
-            width: 800px;
-            height:700px;
-            background-size: cover;
-        }
-    </style>
     <script>
         $(document).ready(function(){
             var canvas = document.getElementById("map");
@@ -52,6 +57,10 @@
             $map.bind('mouseup', function(e){
                 if (paint) {
                     console.log(coordinates);
+                    $(".popup").css("position", "absolute");
+                    $(".popup").css("left", e.pageX - this.offsetLeft);
+                    $(".popup").css("top", e.pageY - this.offsetTop);
+                    $(".popup").fadeIn(1000);
                 }
                 paint = false;
             });
