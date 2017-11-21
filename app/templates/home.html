@@ -68,12 +68,17 @@
             });
 
             $("#save-trip").on('click', function(){
-                // AJAX calls go here
-                console.log("AJAX goddamnit");
-                $(".popup").fadeOut(500);
-                ctx.closePath();
-                coordinatesHistory.push(coordinates);
-                coordinates = new Array();
+                $.ajax({
+                    type: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    url: "{{ basil_api_endpoint }}"+"/trips",
+                    data: coordinatesHistory[coordinatesHistory.length - 1]
+                }).success(function() {
+                    $(".popup").fadeOut(500);
+                    ctx.closePath();
+                    coordinatesHistory.push(coordinates);
+                    coordinates = new Array();
+                });
             });
 
             $("#cancel-trip").on('click', function(){
