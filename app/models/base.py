@@ -3,6 +3,7 @@ import datetime
 
 from sqlalchemy_utils import UUIDType
 from flask_sqlalchemy import event, SessionBase
+from flask import current_app
 
 from app.database import db
 
@@ -24,6 +25,17 @@ class BaseModel(db.Model):
     def create(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def delete_all(cls):
+        try:
+            db.session.query(cls).delete()
+            db.session.commit()
+        except Exception as e:
+            current_app.logger.info(e)
+            db.rollback()
+        return
+
 
 
 @event.listens_for(SessionBase, "before_flush")

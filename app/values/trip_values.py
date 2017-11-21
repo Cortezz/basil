@@ -9,6 +9,7 @@ class TripValues(ValueComposite):
         self.trips = trips
 
         trip_values = []
-        for trip in self.trips:
-            trip_values.append(TripValue(trip))
+        if self.trips:
+            for trip in self.trips:
+                trip_values.append(TripValue(trip))
         self.serialize_and_append_from_values(trip_values)

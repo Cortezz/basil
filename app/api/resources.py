@@ -36,3 +36,11 @@ class Trips(Resource):
         trip_values = TripValues(trips).raw
 
         return trip_values
+
+    def delete(self):
+        trips = TripHandler.delete_all()
+
+        if trips:
+            return {"message": "Trips were successfully deleted"}, 200
+        else:
+            return {"message": "An unexpected error occurred"}, 500
