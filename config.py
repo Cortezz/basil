@@ -13,6 +13,7 @@ class BaseConfig(object):
     DEBUG = False
     TESTING = False
 
+    BASIL_API_ENDPOINT = os.environ.get("BASIL_API_ENDPOINT")
     GMAPS_API_KEY = os.environ.get('GMAPS_API_KEY')
 
     @classmethod
