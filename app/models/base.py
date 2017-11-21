@@ -37,7 +37,6 @@ class BaseModel(db.Model):
         return
 
 
-
 @event.listens_for(SessionBase, "before_flush")
 def before_flush_handler(session, flush_context, instances):
     for obj in session.new:
