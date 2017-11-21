@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>BASIL!!!!</h1>
+    <h1>BASIL!!!! </h1>
 
-
-    <canvas id="map">
-    </canvas>
+    <canvas id="map"></canvas>
+    <button id="delete-trips">Clean all</button>
     <div class="popup">
         <div class="popup-content">
             <div class="popup-message">
@@ -97,6 +96,18 @@
                 $(".popup").fadeOut(500);
                 coordinates = new Array();
                 redraw();
+            });
+
+            $("#delete-trips").on('click', function(){
+                $.ajax({
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json'},
+                    url: "http://{{ basil_api_endpoint }}/api/v1/trips"
+                    }).success(function(data){
+                        coordinates = new Array();
+                        coordinatesHistory = new Array();
+                        ctx.clearRect(0,0,canvas.width,canvas.height);
+                    });
             });
 
             function redraw(){

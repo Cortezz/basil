@@ -1,4 +1,5 @@
 from app.services.create_trip_service import CreateTripService
+from app.services.delete_all_trips_service import DeleteAllTripsService
 from app.finders.trip_finder import TripFinder
 
 
@@ -15,3 +16,7 @@ class TripHandler(object):
     @classmethod
     def get_all(cls):
         return TripFinder.get_all()
+
+    @classmethod
+    def delete_all(cls):
+        return DeleteAllTripsService().call()
