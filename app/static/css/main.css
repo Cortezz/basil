@@ -1,0 +1,22 @@
+#map{
+    background-image: url('../img/europe.png');
+    width: 800px;
+    height:700px;
+    background-size: cover;
+}
+
+.popup{
+    width: 200px;
+    height: 100px;
+    background-color: darkgrey;
+    display: none;
+}
+
+.popup-content{
+    margin: 10px;
+}
+
+.popup-options{
+    margin: 5px 20px;
+    cursor: pointer;
+}
