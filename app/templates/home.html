@@ -51,9 +51,7 @@
             ctx.strokeStyle = "#FF0000";
             ctx.lineJoin = "round";
             ctx.lineWidth = 0.5;
-
-            debugger;
-
+            
              $.ajax({
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
@@ -77,7 +75,6 @@
                     coordinates.push({"x": x, "y":y});
                     ctx.lineTo(x,y);
                     ctx.stroke();
-                    console.log("Painting in ("+x+","+y+")");
                 }
             });
 
@@ -93,7 +90,6 @@
 
             $map.bind('mouseleave', function(e){
                paint = false;
-               console.log("Not painting.")
             });
 
             $("#save-trip").on('click', function(){
