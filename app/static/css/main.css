@@ -1,3 +1,8 @@
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+}
+
 .map-container{
     width:100vw;
     height:100vh;
@@ -17,7 +22,6 @@
     z-index:1;
 }
 
-
 .popup{
     width: 200px;
     height: 100px;
@@ -33,4 +37,47 @@
 .popup-options{
     margin: 5px 20px;
     cursor: pointer;
+}
+
+.map-header {
+    width: 300px;
+    height: 50px;
+    position: relative;
+}
+
+.map-name {
+    font-weight: 400;
+    font-size: 36px;
+}
+
+
+.color-picker-color{
+    width:25px;
+    height:25px;
+}
+
+.color-picker-color.active{
+    border-style: solid;
+    border-bottom: -1px black;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-row-item {
+    margin: 0 20px;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.remove-trips {
+    margin-top: 10px;
+}
+
+.color-picker {
+    margin-top: 12px;
 }
