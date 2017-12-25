@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block body %}
-    <h1>BASIL!!!! </h1>
+    <div class="map-container">
+        <canvas id="canvas-map"></canvas>
+        <div id="map"></div>
+    </div>
 
-    <canvas id="map"></canvas>
     <button id="delete-trips">Clean all</button>
     <div class="popup">
         <div class="popup-content">
@@ -20,28 +22,41 @@
 							integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
     <script>
+          function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 4,
+                center: {lat: 52.519325, lng:13.392709}, //Europe
+                clickableIcons: false,
+                disableDefaultUI: true,
+                disableDoubleClickZoom: true,
+                draggable: false
+            });
+          }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key={{gmaps_api_key }}&callback=initMap">
+    </script>
+    <script>
         $(document).ready(function(){
-            var canvas = document.getElementById("map");
+            var canvas = document.getElementById("canvas-map");
             var ctx = canvas.getContext("2d");
-            canvas.width = 800;
-            canvas.height = 700;
+            canvas.width = $("#map").width();
+            canvas.height =  $("#map").height();
 
             var coordinates = new Array();
             var coordinatesHistory = new Array();
             var paint = false;
-            var $map = $("#map");
+            var $map = $("#canvas-map");
 
             ctx.strokeStyle = "#FF0000";
             ctx.lineJoin = "round";
             ctx.lineWidth = 0.5;
-
-
+            
              $.ajax({
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
                 url: "http://{{ basil_api_endpoint }}/api/v1/trips"
             }).success(function(data){
-                console.log(data);
                 drawTrips(data);
             });
 

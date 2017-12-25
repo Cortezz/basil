@@ -1,15 +1,29 @@
-#map{
-    background-image: url('../img/europe.png');
-    width: 800px;
-    height:700px;
+.map-container{
+    width:100vw;
+    height:100vh;
+    position: relative;
     background-size: cover;
 }
+
+#map, #canvas-map{
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+
+#canvas-map{
+    z-index:1;
+}
+
 
 .popup{
     width: 200px;
     height: 100px;
     background-color: darkgrey;
     display: none;
+    z-index: 2;
 }
 
 .popup-content{
