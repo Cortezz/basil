@@ -1,11 +1,23 @@
 {% extends 'base.html' %}
 {% block body %}
+    <div class="map-header center">
+        <div class="flex-row">
+            <div class="flex-row-item map-name">Europe</div>
+            <div class="flex-row-item color-picker flex-row">
+                <div class="color-picker-color active" data-color="#ff0000" style="background-color:red;"></div>
+                <div class="color-picker-color" data-color="#0000FF" style="background-color:blue;"></div>
+                <div class="color-picker-color" data-color="#008000" style="background-color:green"></div>
+                <div class="color-picker-color" data-color="#FFFF00" style="background-color:yellow"></div>
+            </div>
+            <div class="flex-row-item remove-trips">
+                <a id="delete-trips" class="remove-trips button button-rounded button-small">Reset</a>
+            </div>
+        </div>
+    </div>
     <div class="map-container">
         <canvas id="canvas-map"></canvas>
         <div id="map"></div>
     </div>
-
-    <button id="delete-trips">Clean all</button>
     <div class="popup">
         <div class="popup-content">
             <div class="popup-message">
@@ -48,7 +60,7 @@
             var paint = false;
             var $map = $("#canvas-map");
 
-            ctx.strokeStyle = "#FF0000";
+            ctx.strokeStyle = $(".color-picker").find('.active').data('color');
             ctx.lineJoin = "round";
             ctx.lineWidth = 0.5;
             
@@ -71,7 +83,7 @@
             $map.mousemove(function(e){
                 if (paint) {
                     var x = e.pageX - this.offsetLeft;
-                    var y = e.pageY - this.offsetTop;
+                    var y = e.pageY - this.offsetTop - $(".map-header").height();
                     coordinates.push({"x": x, "y":y});
                     ctx.lineTo(x,y);
                     ctx.stroke();
@@ -125,11 +137,19 @@
                     });
             });
 
+            $(".color-picker-color").click(function(){
+               if (!$(this).hasClass('active')) {
+                   $(".color-picker").find('.active').removeClass('active');
+                   $(this).addClass("active");
+                   ctx.strokeStyle = $(this).data('color');
+               }
+            });
+
             function redraw(){
                 ctx.clearRect(0,0,canvas.width,canvas.height);
                 ctx.strokeStyle = "#FF0000";
                 ctx.lineJoin = "round";
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 2.5;
                 ctx.beginPath();
 
                 for (var i=0; i<coordinatesHistory.length; i++){
@@ -155,11 +175,6 @@
             }
 
         });
-
-
-
-
-
     </script>
 
 {% endblock %}
