@@ -21,11 +21,11 @@
     <div class="popup">
         <div class="popup-content">
             <div class="popup-message">
-                Would you like to save this trip?
+                Wanna save the trip?
             </div>
             <div class="popup-options">
-                <button id="save-trip">Fuck yes!</button>
-                <button id="cancel-trip">NOPE</button>
+                <a id="save-trip" class="button button-rounded button-primary button-small">Yupi!</a>
+                <a id="cancel-trip" class="button button-rounded button-small">Nope.avi</a>
             </div>
         </div>
     </div>
@@ -105,14 +105,14 @@
             });
 
             $("#save-trip").on('click', function(){
-                console.log(coordinates);
+                color = $(".color-picker").find('.active').data('color');
                 $.ajax({
                     type: "POST",
                     headers: {"Content-Type": "application/json"},
                     url: "http://"+"{{ basil_api_endpoint }}"+"/api/v1/trips",
-                    data: JSON.stringify({"coordinates": coordinates })
+                    data: JSON.stringify({"coordinates": coordinates, "color": color})
                 }).success(function() {
-                    $(".popup").fadeOut(500);
+                    $(".popup").fadeIn(500);
                     ctx.closePath();
                     coordinatesHistory.push(coordinates);
                     coordinates = new Array();
@@ -164,6 +164,7 @@
 
             function drawTrips(trips){
                 trips.forEach(function(trip){
+                    ctx.strokeStyle = trip.color;
                     coordinatesHistory.push(trip.coordinates);
                     ctx.beginPath();
                     trip.coordinates.forEach(function(coordinate){

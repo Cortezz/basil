@@ -12,3 +12,5 @@ class TripValue(ValueComposite):
 
         if self.trip.name:
             self.serialize_with(name=self.trip.name)
+        if self.trip.color:
+            self.serialize_with(color=self.trip.color)
