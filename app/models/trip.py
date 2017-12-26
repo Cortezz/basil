@@ -7,3 +7,4 @@ class Trip(BaseModel):
 
     name = db.Column(db.String, nullable=True)
     coordinates = db.Column(db.JSON, nullable=False)
+    color = db.Column(db.String, nullable=True)

@@ -23,6 +23,7 @@ class Trips(Resource):
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=False, location='json')
+        parser.add_argument('color', type=str, required=False, location='json')
         parser.add_argument('coordinates', type=coordinate_pair, required=True, location='json', action='append')
 
         args = parser.parse_args(strict=True)
