@@ -87,16 +87,9 @@
                     var x = e.pageX - this.offsetLeft;
                     var y = e.pageY - this.offsetTop - $(".map-header").height();
                     coordinates.push({"x": x, "y":y});
-                    if (coordinates.length < 6) return;
-                    ctx.beginPath();
-                    ctx.moveTo(coordinates[0].x, coordinates[0].y);
-                    for (var i = 1; i < coordinates.length - 2; i++) {
-                        var c = (coordinates[i].x + coordinates[i + 1].x) / 2;
-                        var d = (coordinates[i].y + coordinates[i + 1].y) / 2;
-                        ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y, c, d)
+                    if (coordinates.length >= 6) {
+                        drawTrip(coordinates);
                     }
-                    ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y, coordinates[i + 1].x, coordinates[i + 1].y);
-                    ctx.stroke();
                 }
             });
 
@@ -125,7 +118,7 @@
                 }).success(function() {
                     $(".popup").fadeOut(500);
                     ctx.closePath();
-                    coordinatesHistory.coordinates.push(coordinates);
+                    coordinatesHistory.push(coordinates);
                     coordinates = new Array();
                 });
             });
@@ -143,7 +136,7 @@
                     url: "http://{{ basil_api_endpoint }}/api/v1/trips"
                     }).success(function(data){
                         coordinates = new Array();
-                        coordinatesHistory = new Object({"coordinates": [], "color": ""});
+                        coordinatesHistory = new Array();
                         ctx.clearRect(0,0,canvas.width,canvas.height);
                     });
             });
@@ -158,31 +151,31 @@
 
             function redraw(){
                 ctx.clearRect(0,0,canvas.width,canvas.height);
-
-                ctx.beginPath();
-
                 for (var i=0; i<coordinatesHistory.length; i++){
-                    ctx.strokeStyle = "#FF0000";
-                    for (var j=0; j<coordinatesHistory[i].length; j++) {
-                            ctx.lineTo(coordinatesHistory[i][j].x, coordinatesHistory[i][j].y);
-                            ctx.stroke();
-                    }
-                    ctx.closePath();
-                    ctx.beginPath();
+                    debugger;
+                    drawTrip(coordinatesHistory[i]);
                 }
             }
 
             function drawTrips(trips){
                 trips.forEach(function(trip){
-                    ctx.strokeStyle = trip.color;
-                    coordinatesHistory.push(trip.coordinates);
-                    ctx.beginPath();
-                    trip.coordinates.forEach(function(coordinate){
-                       ctx.lineTo(coordinate.x, coordinate.y);
-                       ctx.stroke();
-                    });
-                    ctx.closePath();
+                   drawTrip(trip.coordinates);
+                   coordinatesHistory.push(trip.coordinates);
                 });
+            }
+
+            function drawTrip(coordinates){
+                ctx.beginPath();
+                ctx.moveTo(coordinates[0].x, coordinates[0].y);
+                for (var i = 1; i < coordinates.length - 2; i++) {
+                    var c = (coordinates[i].x + coordinates[i + 1].x) / 2;
+                    var d = (coordinates[i].y + coordinates[i + 1].y) / 2;
+                    ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y, c, d)
+                }
+                ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y,
+                    coordinates[i + 1].x, coordinates[i + 1].y);
+                ctx.stroke();
+                ctx.closePath();
             }
 
         });
