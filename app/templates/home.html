@@ -54,28 +54,31 @@
             var ctx = canvas.getContext("2d");
             canvas.width = $("#map").width();
             canvas.height =  $("#map").height();
+            ctx.imageSmoothingEnabled = true;
+
 
             var coordinates = new Array();
-            var coordinatesHistory = new Array();
+            var trips = new Array();
             var paint = false;
             var $map = $("#canvas-map");
 
             ctx.strokeStyle = $(".color-picker").find('.active').data('color');
-            ctx.lineJoin = "round";
-            ctx.lineWidth = 0.5;
-            
+            ctx.lineWidth = 2.5;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+
              $.ajax({
                 method: 'GET',
                 headers: {'Content-Type': 'application/json'},
                 url: "http://{{ basil_api_endpoint }}/api/v1/trips"
             }).success(function(data){
-                drawTrips(data);
+                trips = data;
+                drawTrips(trips);
             });
 
 
             $map.bind('mousedown', function(e) {
                 if (!paint){
-                    ctx.beginPath();
                     paint  = true;
                 }
             });
@@ -85,8 +88,9 @@
                     var x = e.pageX - this.offsetLeft;
                     var y = e.pageY - this.offsetTop - $(".map-header").height();
                     coordinates.push({"x": x, "y":y});
-                    ctx.lineTo(x,y);
-                    ctx.stroke();
+                    if (coordinates.length >= 6) {
+                        drawTrip(coordinates);
+                    }
                 }
             });
 
@@ -102,6 +106,7 @@
 
             $map.bind('mouseleave', function(e){
                paint = false;
+               ctx.closePath();
             });
 
             $("#save-trip").on('click', function(){
@@ -112,9 +117,9 @@
                     url: "http://"+"{{ basil_api_endpoint }}"+"/api/v1/trips",
                     data: JSON.stringify({"coordinates": coordinates, "color": color})
                 }).success(function() {
-                    $(".popup").fadeIn(500);
+                    $(".popup").fadeOut(500);
                     ctx.closePath();
-                    coordinatesHistory.push(coordinates);
+                    trips.push({"coordinates": coordinates, "color": color});
                     coordinates = new Array();
                 });
             });
@@ -122,7 +127,8 @@
             $("#cancel-trip").on('click', function(){
                 $(".popup").fadeOut(500);
                 coordinates = new Array();
-                redraw();
+                ctx.clearRect(0,0,canvas.width,canvas.height);
+                drawTrips(trips);
             });
 
             $("#delete-trips").on('click', function(){
@@ -132,7 +138,7 @@
                     url: "http://{{ basil_api_endpoint }}/api/v1/trips"
                     }).success(function(data){
                         coordinates = new Array();
-                        coordinatesHistory = new Array();
+                        trips = new Array();
                         ctx.clearRect(0,0,canvas.width,canvas.height);
                     });
             });
@@ -145,34 +151,25 @@
                }
             });
 
-            function redraw(){
-                ctx.clearRect(0,0,canvas.width,canvas.height);
-                ctx.strokeStyle = "#FF0000";
-                ctx.lineJoin = "round";
-                ctx.lineWidth = 2.5;
-                ctx.beginPath();
-
-                for (var i=0; i<coordinatesHistory.length; i++){
-                    for (var j=0; j<coordinatesHistory[i].length; j++) {
-                            ctx.lineTo(coordinatesHistory[i][j].x, coordinatesHistory[i][j].y);
-                            ctx.stroke();
-                    }
-                    ctx.closePath();
-                    ctx.beginPath();
-                }
-            }
-
             function drawTrips(trips){
                 trips.forEach(function(trip){
-                    ctx.strokeStyle = trip.color;
-                    coordinatesHistory.push(trip.coordinates);
-                    ctx.beginPath();
-                    trip.coordinates.forEach(function(coordinate){
-                       ctx.lineTo(coordinate.x, coordinate.y);
-                       ctx.stroke();
-                    });
-                    ctx.closePath();
+                   drawTrip(trip.coordinates, trip.color);
                 });
+            }
+
+            function drawTrip(coordinates, color){
+                ctx.strokeStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(coordinates[0].x, coordinates[0].y);
+                for (var i = 1; i < coordinates.length - 2; i++) {
+                    var c = (coordinates[i].x + coordinates[i + 1].x) / 2;
+                    var d = (coordinates[i].y + coordinates[i + 1].y) / 2;
+                    ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y, c, d)
+                }
+                ctx.quadraticCurveTo(coordinates[i].x, coordinates[i].y,
+                    coordinates[i + 1].x, coordinates[i + 1].y);
+                ctx.stroke();
+                ctx.closePath();
             }
 
         });
