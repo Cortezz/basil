@@ -4,10 +4,26 @@
         <div class="flex-row">
             <div class="flex-row-item map-name">Europe</div>
             <div class="flex-row-item color-picker flex-row">
+                <!--Red-->
                 <div class="color-picker-color active" data-color="#ff0000" style="background-color:red;"></div>
+                <!--Blue-->
                 <div class="color-picker-color" data-color="#0000FF" style="background-color:blue;"></div>
-                <div class="color-picker-color" data-color="#008000" style="background-color:green"></div>
-                <div class="color-picker-color" data-color="#FFFF00" style="background-color:yellow"></div>
+                <!--Lime Green-->
+                <div class="color-picker-color" data-color="#33cc33" style="background-color: #33cc33"></div>
+                <!--Yellow-->
+                <div class="color-picker-color" data-color="#ffff00" style="background-color: yellow"></div>
+                <!--Turquoise-->
+                <div class="color-picker-color" data-color="#00F5FF" style="background-color: #00F5FF"></div>
+                <!--Black-->
+                <div class="color-picker-color" data-color="#000000" style="background-color: black"></div>
+                <!--Magenta-->
+                <div class="color-picker-color" data-color="#ff00ff" style="background-color: #ff00ff"></div>
+                <!--Orange-->
+                <div class="color-picker-color" data-color="#ffa500" style="background-color: #ffa500"></div>
+                <!--Steel blue-->
+                <div class="color-picker-color" data-color="#4682B4" style="background-color: #4682B4"></div>
+                <!--Purple-->
+                <div class="color-picker-color" data-color="#800080" style="background-color: #800080"></div>
             </div>
             <div class="flex-row-item remove-trips">
                 <a id="delete-trips" class="remove-trips button button-rounded button-small">Reset</a>
@@ -63,7 +79,7 @@
             var $map = $("#canvas-map");
 
             ctx.strokeStyle = $(".color-picker").find('.active').data('color');
-            ctx.lineWidth = 2.5;
+            ctx.lineWidth = 3;
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
 
