@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}Basil{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/buttons.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
     <div class="map-header center">
         <div class="flex-row">
@@ -28,7 +34,13 @@
             <div class="flex-row-item remove-trips">
                 <a id="delete-trips" class="remove-trips button button-rounded button-small">Reset</a>
             </div>
+            <div class="flex-row-item remove-trips">
+                <form method="POST" action="/logout">
+                     <input type="submit" value="Logout" class="button button-rounded button-caution button-small">
+                </form>
+            </div>
         </div>
+
     </div>
     <div class="map-container">
         <canvas id="canvas-map"></canvas>

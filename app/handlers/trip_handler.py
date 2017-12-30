@@ -1,5 +1,5 @@
-from app.services.create_trip_service import CreateTripService
-from app.services.delete_all_trips_service import DeleteAllTripsService
+from app.services.trips.create_trip_service import CreateTripService
+from app.services.trips.delete_all_trips_service import DeleteAllTripsService
 from app.finders.trip_finder import TripFinder
 
 
