@@ -3,7 +3,6 @@ from flask import Blueprint, render_template, current_app, redirect, url_for, fl
 from app.forms import LoginForm, RegisterForm
 from app.handlers.user_handler import UserHandler
 
-
 home_bp = Blueprint('home', __name__)
 
 
@@ -24,10 +23,11 @@ def home():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for('home.user_index'))
-    else:
-        flash('Invalid credentials :(')
-        return redirect(url_for('home.home'))
+        if UserHandler.validate_user(form.username.data, form.password.data):
+            return redirect(url_for('home.user_index'))
+
+    flash('Invalid credentials :(')
+    return redirect(url_for('home.home'))
 
 
 @home_bp.route('/register', methods=['GET', 'POST'])
