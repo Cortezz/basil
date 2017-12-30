@@ -57,3 +57,8 @@ def register():
 
     return render_template('register.html', form=form)
 
+
+@home_bp.route('/logout', methods=['POST'])
+def logout():
+    logout_user()
+    return redirect(url_for('home.home'))
