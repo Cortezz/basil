@@ -1,11 +1,11 @@
 <!doctype html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Basil</title>
-
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='css/buttons.css') }}" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    {% block head %}
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    	<title>{% block title %}{% endblock %}</title>
+        <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    {% endblock %}
 </head>
 <body>
     {% with messages = get_flashed_messages() %}

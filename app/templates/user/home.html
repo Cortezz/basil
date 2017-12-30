@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}Basil{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/buttons.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
     <div class="map-header center">
         <div class="flex-row">
