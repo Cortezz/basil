@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, current_app, redirect, url_for, flash, request
 
 from app.forms import LoginForm, RegisterForm
+from app.handlers.user_handler import UserHandler
 
 
 home_bp = Blueprint('home', __name__)
@@ -35,6 +36,11 @@ def register():
 
     if request.method == 'POST':
         if form.validate_on_submit():
+            user = UserHandler.create(
+                username=form.username.data,
+                email=form.username.data,
+                password=form.password.data
+            )
             return redirect(url_for('home.user_index'))
         else:
             flash('Dude, get your shit together')
