@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Basil - Login{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block body %}
+    Let's register!
+    <form method="POST" action="/register">
+    {{ form.csrf_token }}
+    Username: {{ form.username }}
+    Email Address:{{ form.email_address }}
+    Password: {{ form.password }}
+    Confirm Password: {{ form.confirm_password }}
+    <input type="submit" value="Register">
+</form>
+{% endblock %}
