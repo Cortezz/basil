@@ -11,6 +11,6 @@ class ValidateUserService(object):
         user = UserFinder.get_from_username(self.username)
 
         if user and self.password == user.password:
-            return True
+            return user
         else:
-            return False
+            return None

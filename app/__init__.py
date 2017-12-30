@@ -24,7 +24,7 @@ def create_app(config_name):
     else:
         app.logger.setLevel("INFO")
 
-    login_manager.login_view = "home_bp.login"
+    login_manager.login_view = "home.home"
     login_manager.user_loader(UserFinder.get_from_id)
     app.app_context().push()
     return app
